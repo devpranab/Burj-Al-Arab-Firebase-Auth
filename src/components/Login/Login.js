@@ -1,30 +1,37 @@
-import React from 'react';
-import {auth} from "./firebase";
+import React, { useContext } from "react";
+import { auth } from "./firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { UserContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = () => {
+    var provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const { displayName, email } = result.user;
+        const signedInUser = { name: displayName, email };
+        console.log(signedInUser);
+        setLoggedInUser(signedInUser);
+        navigate("/");
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        var email = error.email;
+        console.log(errorCode, errorMessage, email);
+      });
+  };
 
-        var provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-        .then((result) => {
-            var user = result.user;
-            console.log(user);
-        }).catch((error) => {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            var email = error.email;
-            console.log(errorCode,errorMessage,email);
-        });
-    }
-
-    return (
-        <div>
-        <h1>This is Login</h1>
-        <button onClick={handleGoogleSignIn}>Google Sign In</button>
-        </div>
-    );
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <button onClick={handleGoogleSignIn}>Google Sign In</button>
+    </div>
+  );
 };
 
 export default Login;
