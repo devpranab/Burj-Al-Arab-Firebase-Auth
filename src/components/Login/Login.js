@@ -5,8 +5,8 @@ import { UserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-    const navigate = useNavigate();
+  const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = () => {
     var provider = new GoogleAuthProvider();
@@ -16,6 +16,7 @@ const Login = () => {
         const signedInUser = { name: displayName, email };
         console.log(signedInUser);
         setLoggedInUser(signedInUser);
+        storeAuthToken(); //call
         navigate("/");
       })
       .catch((error) => {
@@ -23,6 +24,21 @@ const Login = () => {
         var errorMessage = error.message;
         var email = error.email;
         console.log(errorCode, errorMessage, email);
+      });
+  };
+
+  //firebase jwt token
+  const storeAuthToken = () => {
+    
+      auth
+      .currentUser.getIdToken(/* forceRefresh */ true)
+      .then(function (idToken) {
+        // Send token to your backend via HTTPS
+        console.log(idToken);
+        sessionStorage.setItem("token", idToken);
+      })
+      .catch(function (error) {
+        // Handle error
       });
   };
 
