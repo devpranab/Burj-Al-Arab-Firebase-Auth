@@ -17,7 +17,6 @@ const Login = () => {
         console.log(signedInUser);
         setLoggedInUser(signedInUser);
         storeAuthToken(); //call
-        navigate("/");
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -36,6 +35,7 @@ const Login = () => {
         // Send token to your backend via HTTPS
         console.log(idToken);
         sessionStorage.setItem("token", idToken);
+        navigate("/");
       })
       .catch(function (error) {
         // Handle error
