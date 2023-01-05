@@ -46,4 +46,20 @@ https://firebase.google.com/docs/admin/setup
 ```
 
 8. send 401 unauthorized status and refresh token concept
+```js
+//if no found bearer token then show error message
+//https://thecontentworks.uk/http-status-codes-cheat-sheet/
+//check = http://localhost:3008/bookings?email=spranab654@gmail.com = un-authorized
+//check = Network tab
+```
 9. set environment variable and hide sensitive information
+https://www.npmjs.com/package/dotenv  
+```js
+//secure code:
+//npm i dotenv & import require('dotenv').config();
+//console.log(process.env); // remove this after you've confirmed it is working
+//make .env file (DB_USER=arabianUser DB_PASS=arabianUser3453)
+//uri edit
+//.gitignore(node_modules/ .env)
+//move to key json file in configs folder & change path
+```
